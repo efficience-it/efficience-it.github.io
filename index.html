@@ -12,86 +12,86 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Symfony Test Categories</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
+    <style type="text/tailwindcss">
         body {
             font-family: 'Arial', sans-serif;
             background-color: #f4f4f4;
         }
-        .header {
-            background-color: #2e3a47; /* Darker blue for the header */
-            color: #ffffff;
-        }
-        .btn-link {
-            background-color: #007bff;
-            color: white;
-        }
-        .btn-link:hover {
-            background-color: #0056b3;
-        }
-        .container {
-            margin-top: 30px;
+        @layer components {
+            .btn-primary {
+                @apply bg-[#007bff] text-white py-2 px-6 rounded-full hover:bg-[#0056b3];
+            }
+    
+            .card {
+                @apply text-center bg-white shadow-lg rounded-lg p-6 hover:shadow-xl;
+            }
+    
+            .header {
+                @apply bg-[#2e3a47] text-white p-5 text-center;
+            }
         }
     </style>
 </head>
-<body>
+
+<body class="bg-gray-100">
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M5HHV7GC"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
-<header class="header p-5 text-center">
-    <h1 class="text-4xl">Entrainement Symfony</h1>
-    <p class="mt-2 text-lg">Sélectionnez une catégorie pour commencer l'entraînement</p>
-</header>
+    <header class="header">
+        <h1 class="text-4xl">Entrainement Symfony</h1>
+        <p class="mt-2 text-lg">Sélectionnez une catégorie pour commencer l'entraînement</p>
+    </header>
 
-<div class="container max-w-4xl mx-auto">
-    <div class="text-center mb-10">
-        <a href="quizz_symfony.html" class="btn-link py-2 px-4 rounded-full">Entrainement Général</a>
-    </div>
+    <div class="container mx-auto mt-8 px-4">
+        <div class="text-center mb-10">
+            <a href="quizz_symfony.html" class="btn-primary">Entrainement Général</a>
+        </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        <div class="text-center bg-white shadow-lg rounded-lg p-6 hover:shadow-xl">
-            <a href="quizz_symfony.html?topic=automated_tests" class="btn-link py-2 px-4 rounded-full">Automated Tests</a>
-        </div>
-        <div class="text-center bg-white shadow-lg rounded-lg p-6 hover:shadow-xl">
-            <a href="quizz_symfony.html?topic=controllers" class="btn-link py-2 px-4 rounded-full">Controllers</a>
-        </div>
-        <div class="text-center bg-white shadow-lg rounded-lg p-6 hover:shadow-xl">
-            <a href="quizz_symfony.html?topic=console" class="btn-link py-2 px-4 rounded-full">Console</a>
-        </div>
-        <div class="text-center bg-white shadow-lg rounded-lg p-6 hover:shadow-xl">
-            <a href="quizz_symfony.html?topic=data_validation" class="btn-link py-2 px-4 rounded-full">Data Validation</a>
-        </div>
-        <div class="text-center bg-white shadow-lg rounded-lg p-6 hover:shadow-xl">
-            <a href="quizz_symfony.html?topic=dependency_injection" class="btn-link py-2 px-4 rounded-full">Dependency Injection</a>
-        </div>
-        <div class="text-center bg-white shadow-lg rounded-lg p-6 hover:shadow-xl">
-            <a href="quizz_symfony.html?topic=forms" class="btn-link py-2 px-4 rounded-full">Forms</a>
-        </div>
-        <div class="text-center bg-white shadow-lg rounded-lg p-6 hover:shadow-xl">
-            <a href="quizz_symfony.html?topic=http" class="btn-link py-2 px-4 rounded-full">HTTP</a>
-        </div>
-        <div class="text-center bg-white shadow-lg rounded-lg p-6 hover:shadow-xl">
-            <a href="quizz_symfony.html?topic=http_caching" class="btn-link py-2 px-4 rounded-full">HTTP Caching</a>
-        </div>
-        <div class="text-center bg-white shadow-lg rounded-lg p-6 hover:shadow-xl">
-            <a href="quizz_symfony.html?topic=miscellaneous" class="btn-link py-2 px-4 rounded-full">Miscellaneous</a>
-        </div>
-        <div class="text-center bg-white shadow-lg rounded-lg p-6 hover:shadow-xl">
-            <a href="quizz_symfony.html?topic=php_and_web_security" class="btn-link py-2 px-4 rounded-full">PHP &amp; Web Security</a>
-        </div>
-        <div class="text-center bg-white shadow-lg rounded-lg p-6 hover:shadow-xl">
-            <a href="quizz_symfony.html?topic=routing" class="btn-link py-2 px-4 rounded-full">Routing</a>
-        </div>
-        <div class="text-center bg-white shadow-lg rounded-lg p-6 hover:shadow-xl">
-            <a href="quizz_symfony.html?topic=security" class="btn-link py-2 px-4 rounded-full">Security</a>
-        </div>
-        <div class="text-center bg-white shadow-lg rounded-lg p-6 hover:shadow-xl">
-            <a href="quizz_symfony.html?topic=symfony_architecture" class="btn-link py-2 px-4 rounded-full">Symfony Architecture</a>
-        </div>
-        <div class="text-center bg-white shadow-lg rounded-lg p-6 hover:shadow-xl">
-            <a href="quizz_symfony.html?topic=templating_with_twig" class="btn-link py-2 px-4 rounded-full">Templating with Twig</a>
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+            <div class="card">
+                <a href="quizz_symfony.html?topic=automated_tests" class="btn-primary">Automated Tests</a>
+            </div>
+            <div class="card">
+                <a href="quizz_symfony.html?topic=controllers" class="btn-primary">Controllers</a>
+            </div>
+            <div class="card">
+                <a href="quizz_symfony.html?topic=console" class="btn-primary">Console</a>
+            </div>
+            <div class="card">
+                <a href="quizz_symfony.html?topic=data_validation" class="btn-primary">Data Validation</a>
+            </div>
+            <div class="card">
+                <a href="quizz_symfony.html?topic=dependency_injection" class="btn-primary">Dependency Injection</a>
+            </div>
+            <div class="card">
+                <a href="quizz_symfony.html?topic=forms" class="btn-primary">Forms</a>
+            </div>
+            <div class="card">
+                <a href="quizz_symfony.html?topic=http" class="btn-primary">HTTP</a>
+            </div>
+            <div class="card">
+                <a href="quizz_symfony.html?topic=http_caching" class="btn-primary">HTTP Caching</a>
+            </div>
+            <div class="card">
+                <a href="quizz_symfony.html?topic=miscellaneous" class="btn-primary">Miscellaneous</a>
+            </div>
+            <div class="card">
+                <a href="quizz_symfony.html?topic=php_and_web_security" class="btn-primary">PHP &amp; Web Security</a>
+            </div>
+            <div class="card">
+                <a href="quizz_symfony.html?topic=routing" class="btn-primary">Routing</a>
+            </div>
+            <div class="card">
+                <a href="quizz_symfony.html?topic=security" class="btn-primary">Security</a>
+            </div>
+            <div class="card">
+                <a href="quizz_symfony.html?topic=symfony_architecture" class="btn-primary">Symfony Architecture</a>
+            </div>
+            <div class="card">
+                <a href="quizz_symfony.html?topic=templating_with_twig" class="btn-primary">Templating with Twig</a>
+            </div>
         </div>
     </div>
-</div>
 </body>
 </html>

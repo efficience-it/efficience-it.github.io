@@ -9,7 +9,9 @@ At Efficience IT, we understand that passing the Symfony certification requires 
 ## 🎯 Key Features
 
 ✅ Thematic MCQs: Practice on specific topics to fill in your knowledge gaps.
+
 ✅ General training mode: Test your level with a mix of questions across all themes.
+
 ✅ 20 questions per category: Each major topic covers multiple subtopics for a comprehensive review.
 
 ## 📚 Covered Topics

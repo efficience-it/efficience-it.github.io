@@ -11,7 +11,7 @@
 </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">Quizz Symfony</title>
+    <title id="page-title">Quiz Symfony</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
 </head>
@@ -21,12 +21,12 @@
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
     <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-lg">
-        <h1 id="quizz-title" class="text-2xl font-bold mb-4 text-center"></h1>
+        <h1 id="quiz-title" class="text-2xl font-bold mb-4 text-center"></h1>
         <div id="score" class="text-xl text-center m-4"></div>
         <form id="quiz-form">
             <div id="questions-container"></div>
             <button type="submit" class="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
-                Valider
+                Validate
             </button>
         </form>
     </div>
@@ -254,30 +254,54 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             return new URLSearchParams(window.location.search).get(param);
         }
 
+        async function fetchQuestionsFromTopics(topics, questionsPerTopic = null) {
+            try {
+                const allQuestionsByTopic = await Promise.all(
+                    topics.map(async (topic) => {
+                        const yamlFileUrls = quizTopics[topic].yamlFiles.map(file =>
+                            `https://raw.githubusercontent.com/efficience-it/certification-symfony/7.0/data/${file}`
+                        );
+
+                        const topicQuestions = (await Promise.all(yamlFileUrls.map(fetchYaml))).flat();
+                        return { topic, questions: questionsPerTopic ? topicQuestions.sort(() => Math.random() - 0.5).slice(0, questionsPerTopic) : topicQuestions };
+                    })
+                );
+
+                return allQuestionsByTopic.flatMap(({ questions }) => questions);
+            } catch (error) {
+                console.error("Error loading questions :", error);
+                return [];
+            }
+        }
+
         async function fetchYamlFiles(topic) {
             if (!quizTopics[topic]) {
-                displayError("Erreur : Sujet inconnu.");
+                displayError("Error : Unknown subject.");
                 return;
             }
 
             updatePageTitles(quizTopics[topic].title);
-            const yamlFileUrls = quizTopics[topic].yamlFiles.map(file => 
-                `https://raw.githubusercontent.com/efficience-it/certification-symfony/7.0/data/${file}`
-            );
+            const questions = await fetchQuestionsFromTopics([topic]);
 
-            try {
-                const allQuestions = (await Promise.all(yamlFileUrls.map(fetchYaml))).flat();
-                allQuestions.length ? displayQuestions(allQuestions) : displayError("Aucune question trouvée.");
-            } catch (error) {
-                console.error("Erreur lors du chargement des fichiers YAML :", error);
-                displayError("Une erreur est survenue.");
+            questions.length ? displayQuestions(questions) : displayError("No question found.");
+        }
+
+        async function fetchGeneralQuiz() {
+            const allTopics = Object.keys(quizTopics);
+            const generalQuestions = await fetchQuestionsFromTopics(allTopics, 2);
+
+            if (generalQuestions.length) {
+                updatePageTitles('Quiz Symfony Certification - General');
+                displayQuestions(generalQuestions);
+            } else {
+                displayError("No question found in general quiz.");
             }
         }
 
         async function fetchYaml(url) {
             try {
                 const response = await fetch(url);
-                if (!response.ok) throw new Error(`Échec de récupération : ${url}`);
+                if (!response.ok) throw new Error(`Recovery failed : ${url}`);
                 const yamlText = await response.text();
                 const jsonData = jsyaml.load(yamlText);
                 return jsonData.questions || [];
@@ -289,7 +313,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
         function updatePageTitles(title) {
             document.getElementById("page-title").textContent = title;
-            document.getElementById("quizz-title").textContent = title;
+            document.getElementById("quiz-title").textContent = title;
         }
 
         function displayError(message) {
@@ -319,25 +343,35 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
             const optionsHTML = answers.map((answer, i) => `
                 <div class="answer-item flex items-center space-x-2">
-                    <input class="form-${inputType}" type="${inputType}" name="${questionId}" id="q${index}-option${i}" value="${answer.value}">
-                    <label for="q${index}-option${i}" class="answer-label">${answer.value.replace(/"/g, '&quot;').replace(/'/g, '&#39;')}</label>
+                    <input class="form-${inputType}" type="${inputType}" name="${questionId}" id="q${index}-option${i}" value="${escapeHTML(answer.value)}">
+                    <label for="q${index}-option${i}" class="answer-label">${escapeHTML(answer.value)}</label>
                 </div>`).join("");
 
             return `
                 <div class="mb-4 p-4 border rounded-lg bg-gray-50">
                     <h5 class="question-header flex justify-between items-center font-semibold text-gray-700" 
-                        data-answers='${JSON.stringify(answers.filter(a => a.correct).map(a => a.value)).replace(/"/g, '&quot;').replace(/'/g, '&#39;')}'>
-                        <span class="question-header-title">${question.question}</span>
+                        data-answers='${escapeHTML(JSON.stringify(answers.filter(a => a.correct).map(a => a.value)))}'>
+                        <span class="question-header-title">${escapeHTML(question.question)}</span>
                         <span class="self-end text-sm text-gray-500 cursor-default" title="uuid: ${question.uuid}">ℹ️</span>
                     </h5>
                     <div class="question-body mt-2">
                         <div class="answers-container mt-2">${optionsHTML}</div>
                         <div class="hidden mt-2 p-2 rounded answer-section">
-                            <p class="answer-section-text"></p>
-                            🔗 <a href="${question.help}" target="_blank" class="text-blue-600 underline">Voir la source</a>
+                            <span class="answer-section-text"></span>
+                            🔗 <a href="${question.help}" target="_blank" class="text-blue-600 underline">View source</a>
                         </div>
                     </div>
                 </div>`;
+        }
+
+        function escapeHTML(text) {
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;")
+            ;
         }
 
         function checkResponses() {
@@ -358,7 +392,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 resultDiv.classList.toggle("text-green-800", isCorrect);
                 resultDiv.classList.toggle("bg-red-100", !isCorrect);
                 resultDiv.classList.toggle("text-red-800", !isCorrect);
-                resultInfo.innerHTML = isCorrect ? "✅ Réponse(s) correcte(s).<br>" : "❌ Réponse(s) fausse(s). ";
+                resultInfo.innerHTML = isCorrect ? "✅ Correct answer(s). " : "❌ Wrong answer(s). ";
 
                 if (isCorrect) counter++;
             });
@@ -366,7 +400,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         }
 
         const topic = getQueryParam("topic");
-        topic ? fetchYamlFiles(topic) : displayError("Erreur : Aucun sujet spécifié.");
+        topic ? fetchYamlFiles(topic) : fetchGeneralQuiz();
     </script>
 </body>
 </html>

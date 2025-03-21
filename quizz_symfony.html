@@ -328,7 +328,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <h5 class="question-header flex justify-between items-center font-semibold text-gray-700" 
                         data-answers='${JSON.stringify(answers.filter(a => a.correct).map(a => a.value)).replace(/"/g, '&quot;').replace(/'/g, '&#39;')}'>
                         <span class="question-header-title">${question.question}</span>
-                        <span class="self-end text-sm text-gray-500 cursor-default" title="${question.uuid}">ℹ️</span>
+                        <span class="self-end text-sm text-gray-500 cursor-default" title="uuid: ${question.uuid}">ℹ️</span>
                     </h5>
                     <div class="question-body mt-2">
                         <div class="answers-container mt-2">${optionsHTML}</div>
@@ -358,7 +358,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 resultDiv.classList.toggle("text-green-800", isCorrect);
                 resultDiv.classList.toggle("bg-red-100", !isCorrect);
                 resultDiv.classList.toggle("text-red-800", !isCorrect);
-                resultInfo.innerHTML = isCorrect ? "✅ Réponse(s) correcte(s).<br>" : "❌ Réponse(s) fausse(s).<br>";
+                resultInfo.innerHTML = isCorrect ? "✅ Réponse(s) correcte(s).<br>" : "❌ Réponse(s) fausse(s). ";
 
                 if (isCorrect) counter++;
             });

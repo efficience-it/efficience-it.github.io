@@ -1,19 +1,11 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-N5DRJXDRDC"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-N5DRJXDRDC', { anonymize_ip: true, storage: 'none' });
-    </script>
-    <!-- End Google Tag Manager -->
+    <script src="assets/js/gtag.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="page-title">Quiz Twig</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
 </head>
 <body class="bg-gray-100 p-6">
@@ -26,12 +18,21 @@
         <div id="score" class="text-xl text-center m-4"></div>
         <form id="quiz-form">
             <div id="questions-container"></div>
-            <button type="submit" class="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
-                Validate
-            </button>
+            <div class="fixed bottom-0 left-0 w-full bg-white shadow-lg p-2 flex justify-center space-x-2">
+                <button type="button" id="restart-quiz" class="px-4 py-2 bg-blue-600 text-white font-medium rounded-md shadow hover:bg-blue-700 transition duration-300 text-sm">
+                    🔄 Restart
+                </button>
+                <button type="submit" class="px-4 py-2 bg-green-600 text-white font-medium rounded-md shadow hover:bg-green-700 transition duration-300 text-sm">
+                    ✅ Validate
+                </button>
+                <a href="https://efficience-it.github.io" class="px-4 py-2 bg-red-600 text-white font-medium rounded-md shadow hover:bg-red-700 transition duration-300 text-sm">
+                    ❌ Cancel
+                </a>
+            </div>
         </form>
     </div>
-    <script src="./js/twig-quiz-topics.js"></script>
-    <script src="./js/quiz-twig.js"></script>
+    <script src="./assets/js/twig-quiz-topics.js"></script>
+    <script src="./assets/js/quiz-twig.js"></script>
+    <script src="./assets/js/common.js"></script>
 </body>
 </html>

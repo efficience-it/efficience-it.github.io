@@ -331,13 +331,16 @@ function generateQuestionHTML(question, index) {
 }
 
 function escapeHTML(text) {
-    return text
+    let escaped = text
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;")
-        ;
+        .replace(/'/g, "&#039;");
+    
+    escaped = escaped.replace(/`([^`]+)`/g, "<code class='bg-gray-100 text-red-600 font-mono px-1 rounded'>$1</code>");
+
+    return escaped;
 }
 
 function checkResponses() {

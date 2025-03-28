@@ -1,0 +1,33 @@
+name: Validate Content
+
+on:
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository content
+        uses: actions/checkout@v2
+
+      - name: Clone Twig data repository
+        run: git clone --branch 3.x https://github.com/efficience-it/certification-twig.git twig_data
+
+      - name: Clone Symfony data repository
+        run: git clone --branch 7.0 https://github.com/efficience-it/certification-symfony.git symfony_data
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: pip install jsonschema
+
+      - name: Validate Twig data
+        run: python .github/workflows/validate_file_paths.py twig_data twig
+
+      - name: Validate Symfony data
+        run: python .github/workflows/validate_file_paths.py symfony_data symfony

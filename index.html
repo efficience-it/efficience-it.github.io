@@ -1,10 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   
     <script src="assets/js/gtag.js"></script>
-
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="
+      default-src 'self';
+      script-src 'self' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com;
+      style-src 'self' https://fonts.googleapis.com 'unsafe-inline';
+      font-src https://fonts.gstatic.com;
+      img-src 'self' data:;
+      connect-src https://raw.githubusercontent.com;
+      object-src 'none';
+      frame-src https://www.googletagmanager.com;
+      base-uri 'self';
+    ">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Symfony Test Categories</title>
     <script src="https://cdn.tailwindcss.com"></script>

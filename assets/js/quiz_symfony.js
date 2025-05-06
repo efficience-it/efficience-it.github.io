@@ -308,16 +308,22 @@ function generateQuestionHTML(question, index) {
     const answers = question.answers || [];
     const inputType = answers.filter(a => a.correct).length > 1 ? "checkbox" : "radio";
 
-    const optionsHTML = answers.map((answer, i) => `
-                <div class="answer-item flex items-center space-x-2">
-                    <input class="form-${inputType}" type="${inputType}" name="${questionId}" id="q${index}-option${i}" value="${escapeHTML(answer.value)}">
-                    <label for="q${index}-option${i}" class="answer-label">${escapeHTML(answer.value)}</label>
-                </div>`).join("");
+    const optionsHTML = answers.map((answer, i) => {
+        const optionId = `q${index}-option${i}`;
+        const inputValue = `${question.uuid}-${i}`; // ID sûr et unique par question
+
+        return `
+        <div class="answer-item flex items-center space-x-2">
+            <input class="form-${inputType}" type="${inputType}" name="${questionId}" id="${optionId}" value="${inputValue}">
+            <label for="${optionId}" class="answer-label">${escapeHTML(answer.value)}</label>
+        </div>`;
+    }).join("");
+
 
     return `
                 <div class="mb-4 p-4 border rounded-lg bg-gray-50">
                     <h5 class="question-header flex justify-between items-center font-semibold text-gray-700" 
-                        data-answers='${escapeHTML(JSON.stringify(answers.filter(a => a.correct).map(a => a.value)))}'>
+                        data-answers='${JSON.stringify(answers.map((a, i) => a.correct ? `${question.uuid}-${i}` : null).filter(Boolean))}'>
                         <span class="question-header-title">${escapeHTML(question.question)}</span>
                         <span class="self-end text-sm text-gray-500 cursor-default" title="uuid: ${question.uuid}">ℹ️</span>
                     </h5>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   
+    <script src="assets/js/gtag.js"></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Symfony Test Categories</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style type="text/tailwindcss">
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8fafc;
+        }
+        @layer components {
+            .btn-primary {
+                @apply bg-blue-600 text-white py-3 px-8 rounded-full hover:bg-blue-700 transition duration-300;
+            }
+
+            .card {
+                @apply text-center bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition duration-300;
+            }
+
+            .header {
+                @apply bg-gray-800 text-white p-6 text-center rounded-b-lg shadow-md;
+            }
+
+            .footer {
+                @apply bg-gray-800 text-white p-4 text-center mt-10 rounded-t-lg shadow-md;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 px-2 sm:px-4">
+<header class="header">
+    <h1 class="text-5xl font-bold">Training</h1>
+    <p class="mt-2 text-lg">Select a category to start training</p>
+</header>
+
+<div class="container mx-auto mt-8 px-4">
+    <div class="text-center mb-10">
+        <a href="quizz_docker.html" class="btn-primary">General Training</a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+        <div class="card">
+            <a href="quizz_docker.html?topic=orchestration" class="btn-primary">Orchestration</a>
+        </div>
+        <div class="card">
+            <a href="quizz_docker.html?topic=image_creation_management_registry" class="btn-primary">Image Management</a>
+        </div>
+        <div class="card">
+            <a href="quizz_docker.html?topic=installation_and_configuration" class="btn-primary">Installation and Configuration</a>
+        </div>
+        <div class="card">
+            <a href="quizz_docker.html?topic=networking" class="btn-primary">Networking</a>
+        </div>
+        <div class="card">
+            <a href="quizz_docker.html?topic=security" class="btn-primary">Security</a>
+        </div>
+        <div class="card">
+            <a href="quizz_docker.html?topic=storage_and_volumes" class="btn-primary">Storage and Volumes</a>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <p>Contribute to improve the questionnaires:</p>
+    <a href="https://github.com/efficience-it/efficience-it.github.io" class="text-blue-400 hover:underline">This Website</a> |
+    <a href="https://github.com/efficience-it/docker-practice" class="text-blue-400 hover:underline">Docker Questions</a> |
+</footer>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <script src="assets/js/gtag.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Quiz Symfony</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+</head>
+<body class="bg-gray-100 px-2 sm:px-4">
+<noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M5HHV7GC"
+            height="0" width="0" style="display:none;visibility:hidden"></iframe>
+</noscript>
+<div class="max-w-xl sm:max-w-6xl mx-auto bg-white px-3 sm:px-6 py-6 rounded-lg shadow-lg">
+    <h1 id="quiz-title" class="text-2xl font-bold mb-4 text-center"></h1>
+    <div id="score" class="text-xl text-center m-4"></div>
+    <form id="quiz-form">
+        <div id="questions-container"></div>
+        <div class="fixed bottom-0 left-0 w-full bg-white shadow-lg p-2 flex justify-center space-x-2">
+            <button type="button" id="restart-quiz"
+                    class="px-4 py-2 bg-blue-600 text-white font-medium rounded-md shadow hover:bg-blue-700 transition duration-300 text-sm">
+                🔄 Restart
+            </button>
+            <button type="submit"
+                    class="px-4 py-2 bg-green-600 text-white font-medium rounded-md shadow hover:bg-green-700 transition duration-300 text-sm">
+                ✅ Validate
+            </button>
+            <a href="https://efficience-it.github.io"
+               class="px-4 py-2 bg-red-600 text-white font-medium rounded-md shadow hover:bg-red-700 transition duration-300 text-sm">
+                ❌ Cancel
+            </a>
+        </div>
+    </form>
+</div>
+<script src="./assets/js/quizz_docker.js"></script>
+<script src="./assets/js/common.js"></script>
+</body>
+</html>

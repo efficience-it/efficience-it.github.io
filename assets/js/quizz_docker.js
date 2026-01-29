@@ -241,9 +241,9 @@ function generateQuestionHTML(question, index) {
   const optionsHTML = answers
     .map(
       (answer, i) => `
-                <div class="answer-item flex items-center space-x-2">
-                    <input class="form-${inputType}" type="${inputType}" name="${questionId}" id="q${index}-option${i}" value="${escapeHTML(answer.value)}">
-                    <label for="q${index}-option${i}" class="answer-label">${escapeHTML(answer.value)}</label>
+                <div class="answer-item flex items-start space-x-2">
+                    <input class="form-${inputType} mt-1 flex-shrink-0" type="${inputType}" name="${questionId}" id="q${index}-option${i}" value="${escapeHTML(answer.value)}">
+                    <label for="q${index}-option${i}" class="answer-label break-words overflow-wrap-anywhere flex-1">${escapeHTML(answer.value)}</label>
                 </div>`,
     )
     .join("");

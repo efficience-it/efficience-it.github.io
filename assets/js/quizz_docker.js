@@ -238,7 +238,9 @@ function generateQuestionHTML(question, index) {
   const inputType =
     answers.filter((a) => a.correct).length > 1 ? "checkbox" : "radio";
 
-  const optionsHTML = answers
+  const shuffledAnswers = [...answers].sort(() => Math.random() - 0.5);
+
+  const optionsHTML = shuffledAnswers
     .map(
       (answer, i) => `
                 <div class="answer-item flex items-center space-x-2">

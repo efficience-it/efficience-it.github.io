@@ -7,9 +7,15 @@
     <title>Test Categories</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style type="text/tailwindcss">
+      html, body {
+        height: 100%;
+      }
       body {
         font-family: "Arial", sans-serif;
         background-color: #f8fafc;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
       }
       @layer components {
         .btn-primary {
@@ -25,18 +31,19 @@
         }
 
         .footer {
-          @apply bg-gray-800 text-white p-4 text-center mt-10 rounded-t-lg shadow-md;
+          @apply bg-gray-800 text-white p-4 text-center rounded-t-lg shadow-md mt-8;
         }
       }
     </style>
   </head>
   <body class="bg-gray-50 px-2 sm:px-4">
+    <main class="flex-1 flex flex-col">
     <header class="header">
       <h1 class="text-5xl font-bold">Training</h1>
       <p class="mt-2 text-lg">Select a category to start training</p>
     </header>
 
-    <div class="container mx-auto mt-8 px-4">
+    <div class="container mx-auto mt-8 mb-8 px-4">
       <div class="text-center mb-10">
         <a href="quizz_docker.html" class="btn-primary">General Training</a>
       </div>
@@ -80,6 +87,7 @@
         </div>
       </div>
     </div>
+    </main>
 
     <footer class="footer">
       <p>Contribute to improve the questionnaires:</p>

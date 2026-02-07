@@ -1,3 +1,13 @@
+const MAX_QUESTIONS = 20;
+
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
 const quizTopics = {
   orchestration: {
     title: "Quizz DCA - Orchestration",
@@ -111,10 +121,6 @@ const quizTopics = {
   },
 };
 
-function getQueryParam(param) {
-  return new URLSearchParams(window.location.search).get(param);
-}
-
 async function fetchQuestionsFromTopics(topics, questionsPerTopic = null) {
   const baseUrl =
     "https://raw.githubusercontent.com/efficience-it/docker-practice/refs/heads/v1.5/";
@@ -131,9 +137,7 @@ async function fetchQuestionsFromTopics(topics, questionsPerTopic = null) {
         return {
           topic,
           questions: questionsPerTopic
-            ? topicQuestions
-                .sort(() => Math.random() - 0.5)
-                .slice(0, questionsPerTopic)
+            ? shuffleArray(topicQuestions).slice(0, questionsPerTopic)
             : topicQuestions,
         };
       }),
@@ -199,10 +203,8 @@ function displayQuestions(questions) {
   const container = document.getElementById("questions-container");
   container.innerHTML = "";
 
-  questions
-    .sort(() => Math.random() - 0.5)
-    .slice(0, 20)
-    .forEach((question, index) => {
+  shuffleArray(questions);
+  questions.slice(0, MAX_QUESTIONS).forEach((question, index) => {
       container.innerHTML += generateQuestionHTML(question, index);
     });
 
@@ -238,7 +240,7 @@ function generateQuestionHTML(question, index) {
   const inputType =
     answers.filter((a) => a.correct).length > 1 ? "checkbox" : "radio";
 
-  const shuffledAnswers = [...answers].sort(() => Math.random() - 0.5);
+  const shuffledAnswers = shuffleArray([...answers]);
 
   const optionsHTML = shuffledAnswers
     .map(
@@ -280,7 +282,8 @@ function escapeHTML(text) {
 
 function checkResponses() {
   let counter = 0;
-  document.querySelectorAll(".question-body").forEach((questionBlock) => {
+  const questionBlocks = document.querySelectorAll(".question-body");
+  questionBlocks.forEach((questionBlock) => {
     const questionHeader = questionBlock
       .closest(".mb-4")
       .querySelector(".question-header");
@@ -308,7 +311,7 @@ function checkResponses() {
 
     if (isCorrect) counter++;
   });
-  document.getElementById("score").textContent = `${counter}/20`;
+  document.getElementById("score").textContent = `${counter}/${questionBlocks.length}`;
 }
 
 const topic = getQueryParam("topic");

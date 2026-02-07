@@ -1,8 +1,11 @@
+function getQueryParam(param) {
+    return new URLSearchParams(window.location.search).get(param);
+}
+
 document.getElementById("restart-quiz").addEventListener("click", function() {
-    const url = new URL(window.location.href);
-    const topic = url.searchParams.get("topic");
+    const topic = getQueryParam("topic");
     if (topic) {
-        window.location.href = url.pathname + "?topic=" + topic;
+        window.location.href = window.location.pathname + "?topic=" + topic;
     } else {
         location.reload();
     }

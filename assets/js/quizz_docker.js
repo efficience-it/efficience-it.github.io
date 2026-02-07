@@ -206,6 +206,25 @@ function displayQuestions(questions) {
       container.innerHTML += generateQuestionHTML(question, index);
     });
 
+  // Progress tracking
+  const totalQuestions = container.querySelectorAll(".question-body").length;
+  const progressText = document.getElementById("progress-text");
+  const progressBar = document.getElementById("progress-bar");
+  progressText.textContent = `0/${totalQuestions} answered`;
+  progressBar.style.width = "0%";
+
+  container.addEventListener("change", function () {
+    const questionBlocks = container.querySelectorAll(".question-body");
+    let answered = 0;
+    questionBlocks.forEach((block) => {
+      if (block.querySelector(".answers-container input:checked")) {
+        answered++;
+      }
+    });
+    progressText.textContent = `${answered}/${totalQuestions} answered`;
+    progressBar.style.width = `${(answered / totalQuestions) * 100}%`;
+  });
+
   // Ecouteur pour copier l'UUID
   container.querySelectorAll(".copy-uuid").forEach((el) => {
     el.addEventListener("click", function () {

@@ -206,6 +206,14 @@ function displayQuestions(questions) {
       container.innerHTML += generateQuestionHTML(question, index);
     });
 
+  // Per-question check buttons
+  container.querySelectorAll(".check-single").forEach((btn) => {
+    btn.addEventListener("click", function () {
+      const questionBlock = this.closest(".question-body");
+      checkSingleQuestion(questionBlock);
+    });
+  });
+
   // Ecouteur pour copier l'UUID
   container.querySelectorAll(".copy-uuid").forEach((el) => {
     el.addEventListener("click", function () {
@@ -225,9 +233,6 @@ function displayQuestions(questions) {
     .addEventListener("submit", function (event) {
       event.preventDefault();
       checkResponses();
-      document
-        .querySelectorAll(".answer-section")
-        .forEach((el) => el.classList.remove("hidden"));
       window.scrollTo(0, 0);
     });
 }
@@ -261,6 +266,9 @@ function generateQuestionHTML(question, index) {
                     </h5>
                     <div class="question-body mt-2">
                         <div class="answers-container mt-2">${optionsHTML}</div>
+                        <button type="button" class="check-single mt-2 px-3 py-1 bg-yellow-500 text-white text-sm font-medium rounded hover:bg-yellow-600 transition duration-300">
+                            Check
+                        </button>
                         <div class="hidden mt-2 p-2 rounded answer-section">
                             <span class="answer-section-text"></span>
                             🔗 <a href="${question.help}" target="_blank" class="text-blue-600 underline">View source</a>
@@ -278,37 +286,70 @@ function escapeHTML(text) {
     .replace(/'/g, "&#039;");
 }
 
-function checkResponses() {
-  let counter = 0;
-  document.querySelectorAll(".question-body").forEach((questionBlock) => {
-    const questionHeader = questionBlock
-      .closest(".mb-4")
-      .querySelector(".question-header");
-    const expectedAnswers = JSON.parse(
-      questionHeader.getAttribute("data-answers"),
-    );
+function checkSingleQuestion(questionBlock) {
+  const questionHeader = questionBlock
+    .closest(".mb-4")
+    .querySelector(".question-header");
+  const expectedAnswers = JSON.parse(
+    questionHeader.getAttribute("data-answers"),
+  );
 
-    const selectedAnswers = Array.from(
-      questionBlock.querySelectorAll(".answers-container input:checked"),
-    ).map((input) => input.value);
+  const selectedAnswers = Array.from(
+    questionBlock.querySelectorAll(".answers-container input:checked"),
+  ).map((input) => input.value);
 
-    const isCorrect =
-      selectedAnswers.length === expectedAnswers.length &&
-      selectedAnswers.every((val) => expectedAnswers.includes(val));
+  const isCorrect =
+    selectedAnswers.length === expectedAnswers.length &&
+    selectedAnswers.every((val) => expectedAnswers.includes(val));
 
-    const resultDiv = questionBlock.querySelector(".answer-section");
-    const resultInfo = questionBlock.querySelector(".answer-section-text");
-    resultDiv.classList.toggle("bg-green-100", isCorrect);
-    resultDiv.classList.toggle("text-green-800", isCorrect);
-    resultDiv.classList.toggle("bg-red-100", !isCorrect);
-    resultDiv.classList.toggle("text-red-800", !isCorrect);
-    resultInfo.innerHTML = isCorrect
-      ? "✅ Correct answer(s). "
-      : "❌ Wrong answer(s). ";
+  const resultDiv = questionBlock.querySelector(".answer-section");
+  const resultInfo = questionBlock.querySelector(".answer-section-text");
+  resultDiv.classList.remove("hidden");
+  resultDiv.classList.toggle("bg-green-100", isCorrect);
+  resultDiv.classList.toggle("text-green-800", isCorrect);
+  resultDiv.classList.toggle("bg-red-100", !isCorrect);
+  resultDiv.classList.toggle("text-red-800", !isCorrect);
+  resultInfo.innerHTML = isCorrect
+    ? "✅ Correct answer(s). "
+    : "❌ Wrong answer(s). ";
 
-    if (isCorrect) counter++;
+  questionBlock.querySelectorAll(".answers-container input").forEach((input) => {
+    input.disabled = true;
   });
-  document.getElementById("score").textContent = `${counter}/20`;
+
+  const checkBtn = questionBlock.querySelector(".check-single");
+  if (checkBtn) {
+    checkBtn.disabled = true;
+    checkBtn.classList.add("opacity-50", "cursor-not-allowed");
+  }
+
+  questionBlock.dataset.checked = "true";
+  questionBlock.dataset.correct = isCorrect ? "true" : "false";
+
+  updateGlobalScore();
+}
+
+function updateGlobalScore() {
+  const allBlocks = document.querySelectorAll(".question-body");
+  let checked = 0;
+  let correct = 0;
+  allBlocks.forEach((block) => {
+    if (block.dataset.checked === "true") {
+      checked++;
+      if (block.dataset.correct === "true") correct++;
+    }
+  });
+  if (checked > 0) {
+    document.getElementById("score").textContent = `${correct}/${allBlocks.length}`;
+  }
+}
+
+function checkResponses() {
+  document.querySelectorAll(".question-body").forEach((questionBlock) => {
+    if (questionBlock.dataset.checked !== "true") {
+      checkSingleQuestion(questionBlock);
+    }
+  });
 }
 
 const topic = getQueryParam("topic");

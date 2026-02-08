@@ -35,6 +35,7 @@ const quizTopics = {
     title: "Quiz DCA - Image Creation, Management, and Registry",
     yamlFiles: [
       "data/2_Image_creation_management_registry/describe_the_use_of_dockerfile.yaml",
+      "data/2_Image_creation_management_registry/describe_add_copy_volumes_expose_entrypoint.yaml",
       "data/2_Image_creation_management_registry/identify_display_main_parts_dockerfile.yaml",
       "data/2_Image_creation_management_registry/describe_demonstrate_how_create_efficient_image_via_dockerfile.yaml",
       "data/2_Image_creation_management_registry/describe_demonstrate_how_use_cli_command_manage_images_list_delete_prune_rmi.yaml",

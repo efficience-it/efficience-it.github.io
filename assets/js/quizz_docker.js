@@ -10,7 +10,7 @@ function shuffleArray(array) {
 
 const quizTopics = {
   orchestration: {
-    title: "Quizz DCA - Orchestration",
+    title: "Quiz DCA - Orchestration",
     yamlFiles: [
       "data/1_Orchestration/complete_setup_swarm_mode_cluster_managers_worker_nodes.yaml",
       "data/1_Orchestration/extend_run_containers_to_services.yaml",
@@ -32,7 +32,7 @@ const quizTopics = {
     ],
   },
   image_creation_management_registry: {
-    title: "Quizz DCA - Image Creation, Management, and Registry",
+    title: "Quiz DCA - Image Creation, Management, and Registry",
     yamlFiles: [
       "data/2_Image_creation_management_registry/describe_the_use_of_dockerfile.yaml",
       "data/2_Image_creation_management_registry/identify_display_main_parts_dockerfile.yaml",
@@ -53,7 +53,7 @@ const quizTopics = {
     ],
   },
   installation_and_configuration: {
-    title: "Quizz DCA - Installation and Configuration",
+    title: "Quiz DCA - Installation and Configuration",
     yamlFiles: [
       "data/3_installation_and_configuration/describe_sizing_requirements_for_installation.yaml",
       "data/3_installation_and_configuration/install_storage_driver.yaml",
@@ -69,7 +69,7 @@ const quizTopics = {
     ],
   },
   networking: {
-    title: "Quizz DCA - Networking",
+    title: "Quiz DCA - Networking",
     yamlFiles: [
       "data/4_Networking/container_network_model.yaml",
       "data/4_Networking/describe_different_types_use_cases_built_in_network_drivers.yaml",
@@ -88,7 +88,7 @@ const quizTopics = {
     ],
   },
   security: {
-    title: "Quizz DCA - Security",
+    title: "Quiz DCA - Security",
     yamlFiles: [
       "data/5_Security/describe_security_administration_tasks.yaml",
       "data/5_Security/describe_process_signing_image.yaml",
@@ -106,7 +106,7 @@ const quizTopics = {
     ],
   },
   storage_and_volumes: {
-    title: "Quizz DCA - Storage and Volumes",
+    title: "Quiz DCA - Storage and Volumes",
     yamlFiles: [
       "data/6_storage_and_volumes/graph_drivers.yaml",
       "data/6_storage_and_volumes/describe_demonstrate_how_to_configure_devicemapper.yaml",
@@ -145,14 +145,14 @@ async function fetchQuestionsFromTopics(topics, questionsPerTopic = null) {
 
     return allQuestionsByTopic.flatMap(({ questions }) => questions);
   } catch (error) {
-    console.error("Error loading questions :", error);
+    console.error("Error loading questions:", error);
     return [];
   }
 }
 
 async function fetchYamlFiles(topic) {
   if (!quizTopics[topic]) {
-    displayError("Error : Unknown subject.");
+    displayError("Error: Unknown subject.");
     return;
   }
 
@@ -169,7 +169,7 @@ async function fetchGeneralQuiz() {
   const generalQuestions = await fetchQuestionsFromTopics(allTopics, 2);
 
   if (generalQuestions.length) {
-    updatePageTitles("Quizz Symfony Docker - General");
+    updatePageTitles("Quiz DCA - General Training");
     displayQuestions(generalQuestions);
   } else {
     displayError("No question found in general quiz.");
@@ -179,7 +179,7 @@ async function fetchGeneralQuiz() {
 async function fetchYaml(url) {
   try {
     const response = await fetch(url);
-    if (!response.ok) throw new Error(`Recovery failed : ${url}`);
+    if (!response.ok) throw new Error(`Fetch failed: ${url}`);
     const yamlText = await response.text();
     const jsonData = jsyaml.load(yamlText);
     return jsonData.questions || [];
@@ -227,13 +227,13 @@ function displayQuestions(questions) {
     progressBar.style.width = `${(answered / totalQuestions) * 100}%`;
   });
 
-  // Ecouteur pour copier l'UUID
+  // Listener to copy UUID
   container.querySelectorAll(".copy-uuid").forEach((el) => {
     el.addEventListener("click", function () {
       const uuid = this.dataset.uuid;
       navigator.clipboard.writeText(uuid).then(() => {
         this.textContent = "✅";
-        alert(`UUID copied : ${uuid}`);
+        alert(`UUID copied: ${uuid}`);
         setTimeout(() => {
           this.textContent = "ℹ️";
         }, 2000);

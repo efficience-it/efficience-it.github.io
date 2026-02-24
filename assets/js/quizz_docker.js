@@ -317,15 +317,16 @@ function generateQuestionHTML(question, index) {
                     <h5 class="question-header flex justify-between items-center font-semibold text-gray-700" 
                         data-answers='${escapeHTML(JSON.stringify(answers.filter((a) => a.correct).map((a) => a.value)))}'>
                         <span class="question-header-title">${escapeHTML(question.question)}</span>
-                        <span class="copy-uuid self-end text-sm text-gray-500 cursor-pointer hover:text-gray-700" 
+                        <button type="button" class="copy-uuid self-end text-sm text-gray-500 cursor-pointer hover:text-gray-700"
                               title="Click to copy UUID: ${question.uuid}"
-                              data-uuid="${question.uuid}">ℹ️</span>
+                              aria-label="Copy question UUID"
+                              data-uuid="${question.uuid}">ℹ️</button>
                     </h5>
                     <div class="question-body mt-2">
                         <div class="answers-container mt-2">${optionsHTML}</div>
                         <div class="hidden mt-2 p-2 rounded answer-section">
                             <span class="answer-section-text"></span>
-                            🔗 <a href="${question.help}" target="_blank" class="text-blue-600 underline">View source</a>
+                            🔗 <a href="${question.help}" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline" aria-label="View source for this question">View source</a>
                         </div>
                     </div>
                 </div>`;

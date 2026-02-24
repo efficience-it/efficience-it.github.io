@@ -4,9 +4,23 @@
     <script src="assets/js/gtag.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">Quiz Docker®</title>
+    <title id="page-title">Quiz Docker&reg;</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com/3.4.16"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+            },
+          },
+        },
+      }
+    </script>
     <style>
         .answer-label {
             word-break: break-word;
@@ -16,42 +30,52 @@
         .answer-item {
             min-width: 0;
         }
+        #questions-container > div {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.75rem;
+        }
+        #questions-container > div.mb-4 {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.75rem;
+        }
     </style>
 </head>
-<body class="bg-gray-100 px-2 sm:px-4">
+<body class="bg-stone-50 px-2 sm:px-4 font-sans">
 <noscript>
     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M5HHV7GC"
             height="0" width="0" style="display:none;visibility:hidden"></iframe>
 </noscript>
-<header class="bg-gray-800 text-white p-4 text-center rounded-b-lg shadow-md mb-0">
-    <div class="max-w-xl sm:max-w-6xl mx-auto flex items-center justify-between">
-        <a href="index.html" class="text-gray-300 hover:text-white text-sm flex items-center gap-1">
-            ← Back to categories
+<header class="bg-white border-b border-gray-200 p-4 text-center mb-0">
+    <div class="max-w-3xl mx-auto flex items-center justify-between">
+        <a href="index.html" class="text-gray-400 hover:text-gray-600 text-sm flex items-center gap-1 transition duration-200">
+            &larr; Back to categories
         </a>
-        <h1 id="quiz-title" class="text-xl sm:text-2xl font-bold"></h1>
+        <h1 id="quiz-title" class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900"></h1>
         <span class="w-32"></span>
     </div>
 </header>
-<div class="max-w-xl sm:max-w-6xl mx-auto bg-white px-3 sm:px-6 py-6 rounded-b-lg shadow-lg pb-16">
+<div class="max-w-3xl mx-auto bg-white border border-gray-200 rounded-b-xl px-3 sm:px-6 py-6 pb-16">
     <div id="score" class="text-xl text-center m-4"></div>
     <div id="progress" class="mb-4">
-        <div class="flex justify-between text-sm text-gray-600 mb-1">
+        <div class="flex justify-between text-sm text-gray-500 mb-1">
             <span id="progress-text">0/0 answered</span>
         </div>
-        <div class="w-full bg-gray-200 rounded h-2">
-            <div id="progress-bar" class="bg-blue-600 h-2 rounded transition-all duration-300" style="width: 0%"></div>
+        <div class="w-full bg-gray-100 rounded-full h-1.5">
+            <div id="progress-bar" class="bg-indigo-600 h-1.5 rounded-full transition-all duration-300" style="width: 0%"></div>
         </div>
     </div>
     <form id="quiz-form">
         <div id="questions-container" class="pb-16"></div>
-        <div class="fixed bottom-0 left-0 w-full bg-white shadow-lg p-2 flex justify-center space-x-2">
+        <div class="fixed bottom-0 left-0 w-full bg-white/80 backdrop-blur-sm border-t border-gray-200 p-2 flex justify-center space-x-2">
             <button type="button" id="restart-quiz"
-                    class="px-4 py-2 bg-blue-600 text-white font-medium rounded-md shadow hover:bg-blue-700 transition duration-300 text-sm">
-                🔄 Restart
+                    class="px-4 py-2 bg-white text-gray-700 font-medium rounded-lg border border-gray-300 hover:bg-gray-50 transition duration-200 text-sm">
+                Restart
             </button>
             <button type="submit"
-                    class="px-4 py-2 bg-green-600 text-white font-medium rounded-md shadow hover:bg-green-700 transition duration-300 text-sm">
-                ✅ Validate
+                    class="px-4 py-2 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition duration-200 text-sm">
+                Validate
             </button>
         </div>
     </form>

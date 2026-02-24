@@ -227,9 +227,10 @@ function displayQuestions(questions) {
   container.innerHTML = "";
 
   shuffleArray(questions);
-  questions.slice(0, MAX_QUESTIONS).forEach((question, index) => {
-      container.innerHTML += generateQuestionHTML(question, index);
-    });
+  container.innerHTML = questions
+    .slice(0, MAX_QUESTIONS)
+    .map((question, index) => generateQuestionHTML(question, index))
+    .join("");
 
   // Progress tracking
   const totalQuestions = container.querySelectorAll(".question-body").length;

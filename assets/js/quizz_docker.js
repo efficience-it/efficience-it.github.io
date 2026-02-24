@@ -168,6 +168,7 @@ async function fetchQuestionsFromTopics(topics, questionsPerTopic = null) {
     return allQuestionsByTopic.flatMap(({ questions }) => questions);
   } catch (error) {
     console.error("Error loading questions:", error);
+    displayError("Failed to load questions.");
     return [];
   }
 }
@@ -219,7 +220,11 @@ function updatePageTitles(title) {
 
 function displayError(message) {
   document.getElementById("questions-container").innerHTML =
-    `<p class='text-red-600'>${message}</p>`;
+    `<div class="flex flex-col items-center justify-center py-20 text-center">
+      <p class="text-red-600 font-medium mb-2">${message}</p>
+      <p class="text-gray-500 text-sm mb-4">Please check your connection and try again.</p>
+      <button onclick="location.reload()" class="px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 transition duration-200">Reload</button>
+    </div>`;
 }
 
 function displayQuestions(questions) {

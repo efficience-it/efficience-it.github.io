@@ -55,4 +55,6 @@ All contributions must remain original and educational.
 ## ⚖️ Legal Notice
 
 * This is a **community-driven, unofficial project**.
-* It is **not sponsored or endorsed** by Docker Inc., Mirant*
+* It is **not sponsored or endorsed** by Docker Inc., Mirantis, or any of their affiliates.
+* All trademarks are the property of their respective owners.
+* Docker® and the Docker® logo are trademarks or registered trademarks of Docker, Inc. in the United States and/or other countries. Docker, Inc. and other parties may also hold trademark rights to other terms used in this document.

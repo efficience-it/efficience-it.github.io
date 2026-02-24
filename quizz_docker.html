@@ -67,7 +67,15 @@
         </div>
     </div>
     <form id="quiz-form">
-        <div id="questions-container" class="pb-16"></div>
+        <div id="questions-container" class="pb-16">
+            <div id="loading-spinner" class="flex flex-col items-center justify-center py-20 text-gray-400">
+                <svg class="animate-spin h-8 w-8 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                </svg>
+                <span class="text-sm">Loading questions...</span>
+            </div>
+        </div>
         <div class="fixed bottom-0 left-0 w-full bg-white/80 backdrop-blur-sm border-t border-gray-200 p-2 flex justify-center space-x-2">
             <button type="button" id="restart-quiz"
                     class="px-4 py-2 bg-white text-gray-700 font-medium rounded-lg border border-gray-300 hover:bg-gray-50 transition duration-200 text-sm">

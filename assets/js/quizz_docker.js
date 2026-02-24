@@ -314,8 +314,8 @@ function generateQuestionHTML(question, index) {
     .join("");
 
   return `
-                <div class="mb-4 p-4 border rounded-lg bg-gray-50">
-                    <h5 class="question-header flex justify-between items-center font-semibold text-gray-700" 
+                <div class="mb-4 p-4 border rounded-lg bg-gray-50 dark:bg-gray-800">
+                    <h5 class="question-header flex justify-between items-center font-semibold text-gray-700 dark:text-gray-200" 
                         data-answers='${escapeHTML(JSON.stringify(answers.filter((a) => a.correct).map((a) => a.value)))}'>
                         <span class="question-header-title">${escapeHTML(question.question)}</span>
                         <button type="button" class="copy-uuid self-end text-sm text-gray-500 cursor-pointer hover:text-gray-700"

@@ -17,6 +17,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
     <script>
       tailwind.config = {
+        darkMode: 'class',
         theme: {
           extend: {
             fontFamily: {
@@ -45,30 +46,35 @@
             border: 1px solid #e5e7eb;
             border-radius: 0.75rem;
         }
+        .dark #questions-container > div,
+        .dark #questions-container > div.mb-4 {
+            background: #1f2937;
+            border-color: #374151;
+        }
     </style>
 </head>
-<body class="bg-stone-50 px-2 sm:px-4 font-sans">
+<body class="bg-stone-50 dark:bg-gray-900 px-2 sm:px-4 font-sans dark:text-gray-200">
 <a href="#questions-container" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:bg-indigo-600 focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:z-50">Skip to questions</a>
 <noscript>
     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M5HHV7GC"
             height="0" width="0" style="display:none;visibility:hidden"></iframe>
 </noscript>
-<header class="bg-white border-b border-gray-200 p-4 text-center mb-0">
+<header class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 p-4 text-center mb-0">
     <div class="max-w-3xl mx-auto flex items-center justify-between">
-        <a href="index.html" class="text-gray-400 hover:text-gray-600 text-sm flex items-center gap-1 transition duration-200">
+        <a href="index.html" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-sm flex items-center gap-1 transition duration-200">
             &larr; Back to categories
         </a>
-        <h1 id="quiz-title" class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900"></h1>
+        <h1 id="quiz-title" class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"></h1>
         <span class="w-32"></span>
     </div>
 </header>
-<div class="max-w-3xl mx-auto bg-white border border-gray-200 rounded-b-xl px-3 sm:px-6 py-6 pb-16">
+<div class="max-w-3xl mx-auto bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-b-xl px-3 sm:px-6 py-6 pb-16">
     <div id="score" class="text-xl text-center m-4" aria-live="polite"></div>
     <div id="progress" class="mb-4">
         <div class="flex justify-between text-sm text-gray-500 mb-1">
             <span id="progress-text" aria-live="polite">0/0 answered</span>
         </div>
-        <div class="w-full bg-gray-100 rounded-full h-1.5">
+        <div class="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-1.5">
             <div id="progress-bar" class="bg-indigo-600 h-1.5 rounded-full transition-all duration-300" style="width: 0%"></div>
         </div>
     </div>
@@ -82,9 +88,9 @@
                 <span class="text-sm">Loading questions...</span>
             </div>
         </div>
-        <div class="fixed bottom-0 left-0 w-full bg-white/80 backdrop-blur-sm border-t border-gray-200 p-2 flex justify-center space-x-2">
+        <div class="fixed bottom-0 left-0 w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-t border-gray-200 dark:border-gray-700 p-2 flex justify-center space-x-2">
             <button type="button" id="restart-quiz"
-                    class="px-4 py-2 bg-white text-gray-700 font-medium rounded-lg border border-gray-300 hover:bg-gray-50 transition duration-200 text-sm">
+                    class="px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 font-medium rounded-lg border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-200 text-sm">
                 Restart
             </button>
             <button type="submit"
@@ -94,6 +100,15 @@
         </div>
     </form>
 </div>
+<script>
+  (function () {
+    var stored = localStorage.getItem("theme");
+    var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    if (stored === "dark" || (!stored && prefersDark)) {
+      document.documentElement.classList.add("dark");
+    }
+  })();
+</script>
 <script src="./assets/js/common.js"></script>
 <script src="./assets/js/quizz_docker.js"></script>
 </body>

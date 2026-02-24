@@ -201,12 +201,25 @@ async function fetchGeneralQuiz() {
 }
 
 async function fetchYaml(url) {
+  const cacheKey = "yamlCache:" + url;
+  try {
+    const cached = sessionStorage.getItem(cacheKey);
+    if (cached) return JSON.parse(cached);
+  } catch (e) {
+    // sessionStorage unavailable or corrupted, continue with fetch
+  }
   try {
     const response = await fetch(url);
     if (!response.ok) throw new Error(`Fetch failed: ${url}`);
     const yamlText = await response.text();
     const jsonData = jsyaml.load(yamlText);
-    return jsonData.questions || [];
+    const questions = jsonData.questions || [];
+    try {
+      sessionStorage.setItem(cacheKey, JSON.stringify(questions));
+    } catch (e) {
+      // sessionStorage full, ignore
+    }
+    return questions;
   } catch (error) {
     console.error(error);
     return [];

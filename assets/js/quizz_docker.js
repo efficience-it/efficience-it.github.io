@@ -354,6 +354,24 @@ function checkResponses() {
     if (isCorrect) counter++;
   });
   document.getElementById("score").textContent = `${counter}/${questionBlocks.length}`;
+  saveQuizResult(counter, questionBlocks.length, getQueryParam("topic") || "General");
+}
+
+function saveQuizResult(score, total, category) {
+  let history = [];
+  try {
+    history = JSON.parse(localStorage.getItem("quizHistory")) || [];
+  } catch (e) {
+    history = [];
+  }
+  history.push({
+    date: new Date().toISOString(),
+    category: category,
+    score: score,
+    total: total,
+  });
+  history = history.slice(-10);
+  localStorage.setItem("quizHistory", JSON.stringify(history));
 }
 
 const topic = getQueryParam("topic");

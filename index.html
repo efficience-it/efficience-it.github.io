@@ -83,6 +83,59 @@
         </a>
       </div>
     </div>
+
+    <div id="quiz-history" class="max-w-3xl mx-auto w-full mb-8 px-4 hidden">
+      <p class="text-xs uppercase tracking-wide text-gray-400 mb-4 text-center">Recent activity</p>
+      <div class="bg-white border border-gray-200 rounded-xl overflow-hidden">
+        <div id="quiz-history-list"></div>
+        <div class="px-4 py-3 text-center border-t border-gray-100">
+          <button id="clear-history" class="text-xs text-gray-400 hover:text-gray-600 cursor-pointer">Clear history</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        function renderHistory() {
+          let history = [];
+          try {
+            history = JSON.parse(localStorage.getItem("quizHistory")) || [];
+          } catch (e) {
+            history = [];
+          }
+          const container = document.getElementById("quiz-history");
+          const list = document.getElementById("quiz-history-list");
+          if (!history.length) {
+            container.classList.add("hidden");
+            return;
+          }
+          container.classList.remove("hidden");
+          list.innerHTML = history
+            .slice()
+            .reverse()
+            .map(function (entry, i) {
+              const d = new Date(entry.date);
+              const dateStr = d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+              const border = i < history.length - 1 ? "border-b border-gray-100" : "";
+              return (
+                '<div class="flex items-center justify-between px-4 py-3 ' + border + '">' +
+                  '<span class="text-gray-400 text-sm w-20">' + dateStr + "</span>" +
+                  '<span class="text-gray-700 font-medium text-sm flex-1">' + entry.category + "</span>" +
+                  '<span class="text-sm text-gray-600">' + entry.score + "/" + entry.total + "</span>" +
+                "</div>"
+              );
+            })
+            .join("");
+        }
+
+        renderHistory();
+
+        document.getElementById("clear-history").addEventListener("click", function () {
+          localStorage.removeItem("quizHistory");
+          renderHistory();
+        });
+      })();
+    </script>
     </main>
 
     <footer class="footer">

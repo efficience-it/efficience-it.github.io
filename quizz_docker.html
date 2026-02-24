@@ -4,7 +4,12 @@
     <script src="assets/js/gtag.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">Quiz Docker&reg;</title>
+    <title id="page-title">Quiz — Docker DCA Practice</title>
+    <meta name="description" content="Practice quiz for Docker DCA certification. Answer questions and get instant feedback." />
+    <meta property="og:title" content="Docker DCA Practice Quiz" />
+    <meta property="og:description" content="Practice quiz for Docker DCA certification. Answer questions and get instant feedback." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -49,6 +54,7 @@
     </style>
 </head>
 <body class="bg-stone-50 dark:bg-gray-900 px-2 sm:px-4 font-sans dark:text-gray-200">
+<a href="#questions-container" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:bg-indigo-600 focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:z-50">Skip to questions</a>
 <noscript>
     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M5HHV7GC"
             height="0" width="0" style="display:none;visibility:hidden"></iframe>
@@ -63,17 +69,25 @@
     </div>
 </header>
 <div class="max-w-3xl mx-auto bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-b-xl px-3 sm:px-6 py-6 pb-16">
-    <div id="score" class="text-xl text-center m-4"></div>
+    <div id="score" class="text-xl text-center m-4" aria-live="polite"></div>
     <div id="progress" class="mb-4">
         <div class="flex justify-between text-sm text-gray-500 mb-1">
-            <span id="progress-text">0/0 answered</span>
+            <span id="progress-text" aria-live="polite">0/0 answered</span>
         </div>
         <div class="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-1.5">
             <div id="progress-bar" class="bg-indigo-600 h-1.5 rounded-full transition-all duration-300" style="width: 0%"></div>
         </div>
     </div>
     <form id="quiz-form">
-        <div id="questions-container" class="pb-16"></div>
+        <div id="questions-container" class="pb-16">
+            <div id="loading-spinner" class="flex flex-col items-center justify-center py-20 text-gray-400">
+                <svg class="animate-spin h-8 w-8 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                </svg>
+                <span class="text-sm">Loading questions...</span>
+            </div>
+        </div>
         <div class="fixed bottom-0 left-0 w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-t border-gray-200 dark:border-gray-700 p-2 flex justify-center space-x-2">
             <button type="button" id="restart-quiz"
                     class="px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 font-medium rounded-lg border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-200 text-sm">

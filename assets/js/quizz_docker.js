@@ -168,6 +168,7 @@ async function fetchQuestionsFromTopics(topics, questionsPerTopic = null) {
     return allQuestionsByTopic.flatMap(({ questions }) => questions);
   } catch (error) {
     console.error("Error loading questions:", error);
+    displayError("Failed to load questions.");
     return [];
   }
 }
@@ -200,12 +201,25 @@ async function fetchGeneralQuiz() {
 }
 
 async function fetchYaml(url) {
+  const cacheKey = "yamlCache:" + url;
+  try {
+    const cached = sessionStorage.getItem(cacheKey);
+    if (cached) return JSON.parse(cached);
+  } catch (e) {
+    // sessionStorage unavailable or corrupted, continue with fetch
+  }
   try {
     const response = await fetch(url);
     if (!response.ok) throw new Error(`Fetch failed: ${url}`);
     const yamlText = await response.text();
     const jsonData = jsyaml.load(yamlText);
-    return jsonData.questions || [];
+    const questions = jsonData.questions || [];
+    try {
+      sessionStorage.setItem(cacheKey, JSON.stringify(questions));
+    } catch (e) {
+      // sessionStorage full, ignore
+    }
+    return questions;
   } catch (error) {
     console.error(error);
     return [];
@@ -219,7 +233,11 @@ function updatePageTitles(title) {
 
 function displayError(message) {
   document.getElementById("questions-container").innerHTML =
-    `<p class='text-red-600'>${message}</p>`;
+    `<div class="flex flex-col items-center justify-center py-20 text-center">
+      <p class="text-red-600 font-medium mb-2">${message}</p>
+      <p class="text-gray-500 text-sm mb-4">Please check your connection and try again.</p>
+      <button onclick="location.reload()" class="px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 transition duration-200">Reload</button>
+    </div>`;
 }
 
 function displayQuestions(questions) {
@@ -227,9 +245,10 @@ function displayQuestions(questions) {
   container.innerHTML = "";
 
   shuffleArray(questions);
-  questions.slice(0, MAX_QUESTIONS).forEach((question, index) => {
-      container.innerHTML += generateQuestionHTML(question, index);
-    });
+  container.innerHTML = questions
+    .slice(0, MAX_QUESTIONS)
+    .map((question, index) => generateQuestionHTML(question, index))
+    .join("");
 
   // Progress tracking
   const totalQuestions = container.querySelectorAll(".question-body").length;
@@ -299,15 +318,16 @@ function generateQuestionHTML(question, index) {
                     <h5 class="question-header flex justify-between items-center font-semibold text-gray-700 dark:text-gray-200" 
                         data-answers='${escapeHTML(JSON.stringify(answers.filter((a) => a.correct).map((a) => a.value)))}'>
                         <span class="question-header-title">${escapeHTML(question.question)}</span>
-                        <span class="copy-uuid self-end text-sm text-gray-500 cursor-pointer hover:text-gray-700" 
+                        <button type="button" class="copy-uuid self-end text-sm text-gray-500 cursor-pointer hover:text-gray-700"
                               title="Click to copy UUID: ${question.uuid}"
-                              data-uuid="${question.uuid}">ℹ️</span>
+                              aria-label="Copy question UUID"
+                              data-uuid="${question.uuid}">ℹ️</button>
                     </h5>
                     <div class="question-body mt-2">
                         <div class="answers-container mt-2">${optionsHTML}</div>
                         <div class="hidden mt-2 p-2 rounded answer-section">
                             <span class="answer-section-text"></span>
-                            🔗 <a href="${question.help}" target="_blank" class="text-blue-600 underline">View source</a>
+                            🔗 <a href="${question.help}" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline" aria-label="View source for this question">View source</a>
                         </div>
                     </div>
                 </div>`;

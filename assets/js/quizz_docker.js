@@ -188,7 +188,8 @@ async function fetchYamlFiles(topic) {
 
 async function fetchGeneralQuiz() {
   const allTopics = Object.keys(quizTopics);
-  const generalQuestions = await fetchQuestionsFromTopics(allTopics, 2);
+  const questionsPerTopic = Math.ceil(MAX_QUESTIONS / allTopics.length);
+  const generalQuestions = await fetchQuestionsFromTopics(allTopics, questionsPerTopic);
 
   if (generalQuestions.length) {
     updatePageTitles("Quiz DCA - General Training");
